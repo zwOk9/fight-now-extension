@@ -3,7 +3,7 @@ const fights =
       [
           {
             "links": ["http://crackstreams.com/boxing-streams/watch-espn-berchelt-vs-valenzuela/"],
-            "broadcaster":["DAZN"],
+            "broadcaster":["DAZN", "RMC", "FOX"],
             "_id":"5f24ac10293bdf4054ac0b79",
             "title":"Khabib Nurmagomedov vs Justin Gaethje",
             "typeFight":"mma","dateFight":"2020-09-30T13:17:00.000Z",
