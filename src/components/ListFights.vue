@@ -8,9 +8,10 @@
       el-col(:span="10")
         div.grid-content
           p {{ data.title }}
+          div.fight-now__broadcast
+            img(v-for="broadcast in data.broadcaster" :src="getImageBroadcast(broadcast)")
       el-col(:span="10")
         CountDown(:date="data.dateFight")
-    el-button(@click="showNotification")
 </template>
 
 <script>
@@ -20,13 +21,8 @@ import CountDown from '@/components/CountDown'
     components: {
       CountDown
     },
-    data () {
-      return {
-      }
-    },
     methods: {
       showNotification () {
-        console.log(Notification.permission)
         // chrome.browserAction.setIcon({path: {16: "./assets/icons/default1.png"}});
         let notification = new Notification('Notification title', {
             icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
@@ -37,6 +33,10 @@ import CountDown from '@/components/CountDown'
           window.open('http://stackoverflow.com/a/13328397/1269037')
         }
         console.log(notification)
+      }, 
+      getImageBroadcast (broadcast) {
+        console.log(broadcast)
+        return require(`@/assets/broadcast/${broadcast.toLowerCase()}.png`)
       }
     },
     props: ['datas']
@@ -87,6 +87,9 @@ import CountDown from '@/components/CountDown'
     padding-top: 3px;
     &__icons img {
       width: 25px;
+    }
+    &__broadcast img {
+      width: 20px;
     }
   }
 </style>
