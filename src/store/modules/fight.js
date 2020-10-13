@@ -15,7 +15,7 @@ const mutations = {
 
 const actions = {
   getFights ({ commit }) {
-    _axios
+    return _axios
       .get('getFight')
       .then(response => {
         let results = response.data.results

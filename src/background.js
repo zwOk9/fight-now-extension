@@ -1,3 +1,10 @@
+
+import store from './store'
+
+
+store.dispatch('getFights').then(() => {
+    console.log(store.getters.fights)
+})
 // browser.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 //   console.log('Hello from the background')
 // })
