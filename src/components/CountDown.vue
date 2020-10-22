@@ -45,7 +45,6 @@ export default {
         this.dateSyncro = countDownInner
         this.loadingDate = false
       }, 1000)
-      
     },
     pad (n) {
 			return (n < 10 ? '0' : '') + n;

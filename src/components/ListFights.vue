@@ -22,20 +22,7 @@ import CountDown from '@/components/CountDown'
       CountDown
     },
     methods: {
-      showNotification () {
-        // chrome.browserAction.setIcon({path: {16: "./assets/icons/default1.png"}});
-        let notification = new Notification('Notification title', {
-            icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
-            body: 'Hey there! You\'ve been notified!',
-        })
-        notification.onclick = () => {
-          console.log('dd')
-          window.open('http://stackoverflow.com/a/13328397/1269037')
-        }
-        console.log(notification)
-      }, 
       getImageBroadcast (broadcast) {
-        console.log(broadcast)
         return require(`@/assets/broadcast/${broadcast.toLowerCase()}.png`)
       }
     },
