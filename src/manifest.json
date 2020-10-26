@@ -4,6 +4,7 @@
   "homepage_url": "http://localhost:8080/",
   "description": "Cette fois, tu ne manqueras pas un autre évènement.",
   "default_locale": "en",
+  "options_page": "options.html",
   "permissions": [
     "<all_urls>",
     "*://*/*",

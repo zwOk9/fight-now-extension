@@ -1,6 +1,8 @@
 <template lang="pug">
   div
+      el-button(@click="chromOpenOption()") {{ 'options' }}
       ListFight(v-loading="loading" :datas="fights")
+      
   
 </template>
 
@@ -29,6 +31,9 @@ export default {
   },
   methods: {
     ...mapActions(['getFights']),
+    chromOpenOption () {
+      chrome.tabs.create({ url: "options.html" })
+    }
   }
 }
 </script>
