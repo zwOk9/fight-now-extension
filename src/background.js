@@ -8,10 +8,15 @@ chrome.runtime.onInstalled.addListener(() => {
 
 
 chrome.alarms.onAlarm.addListener(() => {
-  checkNotification ()
+  chrome.storage.sync.get([
+    'notificationMMA', 'notificationBoxing'], (items) => {
+      let mma = (_.isNil(items.notificationMMA) || !items.notificationMMA) ? false : items.notificationMMA
+      let boxing = (_.isNil(items.notificationBoxing) || !items.notificationBoxing) ? false : items.notificationBoxing
+      checkNotification (mma, boxing)
+  })
 });
 
-function checkNotification () {
+function checkNotification (mma, boxing) {
   store.dispatch('getFights').then(() => {
     let fights = store.getters.fights
     _.forEach(fights, (fight) => {
@@ -19,7 +24,7 @@ function checkNotification () {
       let id = fight._id
       try {
         chrome.storage.local.get(id, (result) => {
-          if (_.isNil(result[id]) && (new Date(fight.dateFight).getTime() + (5*60*60*1000)) <= Date.now()) {
+          if ((_.isNil(result[id]) && (new Date(fight.dateFight).getTime() + (5*60*60*1000)) <= Date.now()) || (result[id].typeFight === 'MMA' && !mma) || result[id].typeFight === 'boxing' && !boxing) {
             return
           }
           let modelFightCompare = {
