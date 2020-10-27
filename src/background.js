@@ -3,7 +3,7 @@ import _ from 'lodash'
 
 
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.alarms.create('refresh', { periodInMinutes: 2 });
+  chrome.alarms.create('refresh', { periodInMinutes: 1.3 });
 });
 
 
@@ -20,12 +20,14 @@ function checkNotification (mma, boxing) {
   store.dispatch('getFights').then(() => {
     let fights = store.getters.fights
     _.forEach(fights, (fight) => {
-      
       let id = fight._id
       try {
         chrome.storage.local.get(id, (result) => {
-          if ((_.isNil(result[id]) && (new Date(fight.dateFight).getTime() + (5*60*60*1000)) <= Date.now()) || (result[id].typeFight === 'MMA' && !mma) || result[id].typeFight === 'boxing' && !boxing) {
+          if (((_.isNil(result[id])) && ((new Date(fight.dateFight).getTime() + (5*60*60*1000))) <= Date.now()) || (!_.isNil(result[id]) && result[id].typeFight === 'mma' && !mma) || (!_.isNil(result[id]) &&result[id].typeFight === 'boxe' && !boxing) || (!_.isNil(result[id]) && result[id].notification)) {
             return
+          }
+          if((new Date(result[id].dateFight).getTime() + (5*60*60*1000)) <= Date.now()) {
+            clearStorage([id])
           }
           let modelFightCompare = {
             _id: '',
@@ -59,14 +61,22 @@ function checkNotification (mma, boxing) {
               chrome.storage.local.set({[id]: modelFightStorage})
             } 
           } else if (!_.isEqual(modelFightApi, modelFightCompare)) {
-            chrome.storage.local.set({[id]: modelFightApi})
+            let modelFightStorageUpdate = {
+              _id: fight._id,
+              broadcaster: fight.broadcaster,
+              dateFight: fight.dateFight,
+              links: fight.links,
+              title: fight.title,
+              typeFight: fight.typeFight,
+              notification: false
+            }
+            chrome.storage.local.set({[id]: modelFightStorageUpdate})
+            
           } else {
-            if ((new Date(result[id].dateFight).getTime()) <= Date.now() && !result[id].notification) {
+            if (((new Date(result[id].dateFight).getTime() - (1*60*60*1000)) <= Date.now()) && !result[id].notification) {
               showNotif(fight)
               result[id].notification = true
               chrome.storage.local.set({[id]: result[id]})
-            } else if ((new Date(result[id].dateFight).getTime() + (5*60*60*1000)) <= Date.now()) {
-              clearStorage([id])
             }
           }
         })
@@ -90,7 +100,16 @@ function showNotif (data) {
 
 
 function clearStorage (idStorage) {
-  chrome.storage.local.get(idStorage, (result) => {
-    delete result[idStorage]
+  console.log(idStorage)
+  chrome.storage.local.remove(idStorage, () => {
+    var error = chrome.runtime.lastError;
+    if (error) {
+        console.error(error);
+    }
   })
 }
+
+
+// function pad (n) {
+//   return (n < 10 ? '0' : '') + n;
+// }
