@@ -1,7 +1,7 @@
 <template lang="pug">
   div
-      el-button(@click="chromOpenOption()") {{ 'options' }}
-      ListFight(v-loading="loading" :datas="fights")
+    
+    ListFight(v-loading="loading" :datas="fights")
       
   
 </template>
@@ -40,7 +40,9 @@ export default {
 
 <style>
 html {
-  width: 531px;
-  height: 400px;
+  width: 700px;
 }
+body {
+    background-color: #161c33;
+  }
 </style>

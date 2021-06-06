@@ -1,7 +1,14 @@
 
 <template lang="pug">
-    div.fight-now__countdown(v-loading='loadingDate')
-      p {{dateSyncro}}
+    div.container-fight-info--counter
+      p 
+        span.container-fight-info--counter--number {{ jours }}
+        span.container-fight-info--counter--delimiter {{':'}}
+        span.container-fight-info--counter--number {{ heures }}
+        span.container-fight-info--counter--delimiter {{':'}}
+        span.container-fight-info--counter--number {{ minutes }}
+        span.container-fight-info--counter--delimiter {{':'}}
+        span.container-fight-info--counter--number {{ seconds }}
 </template>
 
 <script>
@@ -9,48 +16,42 @@
 export default {
   data () {
     return {
-      dateSyncro: '',
+      dateSyncro: new Date(this.date).getTime(),
+      dateNow: new Date().getTime(),
+      interval: '',
       loadingDate: true
     }
   },
+  props: {
+    date: {
+      type: String,
+      required: true,
+    }
+  },
   created() {
-    this.countDownTimer()
+    this.interval = setInterval(() => {
+      this.dateNow =  new Date().getTime()
+    }, 1000)
+  },
+  computed: {
+    seconds () {
+      return this.addZero(Math.trunc(((this.dateSyncro - this.dateNow) / 1000) % 60))
+    },
+    minutes () {
+      return this.addZero(Math.trunc((((this.dateSyncro - this.dateNow) / 1000) / 60) % 60 ))
+    },
+    heures () {
+      return this.addZero(Math.trunc(((((this.dateSyncro - this.dateNow) / 1000) / 60) / 3600) % 60 ))
+    },
+    jours () {
+      return this.addZero(Math.trunc(((this.dateSyncro - this.dateNow) / 86400) % 60))
+    }
   },
   methods: {
-    countDownTimer () {
-      setInterval(() => {
-        let days, hours, minutes, seconds;
-        let currentDate = new Date().getTime();
-        let targetDate = new Date(this.date).getTime();
-        let secondsLeft = ((targetDate - currentDate) / 1000) - 1000
-        days = this.pad( Math.floor( secondsLeft / 86400 ) )
-        
-        secondsLeft %= 86400
-        hours = this.pad( Math.floor( secondsLeft / 3600 ) )
-        secondsLeft %= 3600
-        minutes = this.pad( Math.floor( secondsLeft / 60 ) )
-        seconds = this.pad( Math.floor( secondsLeft % 60 ) )
-        let countDownInner = ''
-        if (days > 0) {
-          countDownInner = `${days} : ${hours} : ${minutes} : ${seconds}`
-        } else if (days <= 0 && hours > 0 && (minutes > 0)) {
-          countDownInner = `${hours} : ${minutes} : ${seconds}`
-        }  else if (days <= 0 && hours <= 0 && (minutes > 0)) {
-          countDownInner = `${minutes} : ${seconds}`
-        } else if (days <= 0 && hours <= 0 && minutes <= 0 && (seconds > 0)) {
-          countDownInner = `${seconds}`
-        } else {
-          countDownInner = `now`
-        }
-        this.dateSyncro = countDownInner
-        this.loadingDate = false
-      }, 1000)
-    },
-    pad (n) {
-			return (n < 10 ? '0' : '') + n;
-		}
-  },
-  props: ['date']
+    addZero (number) {
+      return (number >= 10) ? number : `0${number}`
+    }
+  }
 }
 </script>
 
@@ -58,6 +59,27 @@ export default {
   .fight-now {
     &__countdown {
       text-align: right;
+    }
+  }
+  .container {
+    &-fight {
+      &-info {
+        &--counter {
+          &--number {
+            color: white
+          }
+          &--delimiter {
+            color: rgb(230, 22, 16);
+          }
+          & p {
+            font-weight: bold;
+            font: small-caps bold 16px/1 sans-serif;
+          }
+          & span {
+            font-weight: bold;
+          }
+        }
+      }
     }
   }
 </style>

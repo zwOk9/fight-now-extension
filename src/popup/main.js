@@ -4,7 +4,9 @@ import store from '../store'
 import App from './App.vue'
 import Element from 'element-ui'
 import '../element-variables.scss'
-import moment from 'moment'
+import CountryFlag from 'vue-country-flag'
+
+Vue.component('country-flag', CountryFlag)
 
 
 
@@ -12,7 +14,6 @@ Vue.use(Vuex)
 
 
 Vue.use(Element)
-Vue.use(moment)
 
 new Vue({
   el: '#app',
