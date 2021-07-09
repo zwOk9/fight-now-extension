@@ -1,4 +1,4 @@
-const fights = 
+const fights =
     {"results":
       [
           {
@@ -24,7 +24,5 @@ const fights =
         }
       ]
     }
+export { fights }
 
-
-
-module.exports = { fights }

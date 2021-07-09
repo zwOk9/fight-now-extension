@@ -1,79 +1,73 @@
 <template lang="pug">
-  div
-    div.fight-now-option.fight-now-option--heading
-      img(:src="getUrl()" height="40" alt="")
-      h1 {{ 'Fight now Options' }} 
-    div.fight-now-option.fight-now-option--options
-      div.fight-now-option--option
-        el-checkbox(v-model="options.boxing" @change="handleCheckBoxing") {{ 'Be notified of BOXING events.' }}
-      div.fight-now-option--option
-       el-checkbox(v-model="options.mma" @change="handleCheckMMA") {{ 'Be notified of MMA events.' }}
-      transition(name="fade")
-        div.fight-now-option--status(v-if="statusText.length > 0")
-          p {{ statusText }}
-
+div
+  div.fight-now-option.fight-now-option--heading
+    //- img(src="../assets/icons/32.png" height="40" alt="")
+    h1 {{ 'Fight now Options' }} 
+  div.fight-now-option.fight-now-option--options
+    div.fight-now-option--option
+      el-checkbox(v-model="options.boxing" @change="handleCheckBoxing") {{ 'Be notified of BOXING events.' }}
+    div.fight-now-option--option
+      el-checkbox(v-model="options.mma" @change="handleCheckMMA") {{ 'Be notified of MMA events.' }}
 </template>
 
-<script>
-import _ from 'lodash'
+<script lang="js">
 
-export default {
-  data () {
-    return {
-        options: {
-          boxing: false,
-          mma: false
-        },
-        statusText: '',
-        time: null
-    }
-  },
-  mounted () {
-      chrome.storage.sync.get([
-        'notificationMMA', 'notificationBoxing'], (items) => {
-          if (_.isNil(items.notificationBoxing)) {
+  import { defineComponent, onMounted, reactive } from "vue"
+  import { ElNotification } from 'element-plus'
+  import _ from 'lodash'
+
+export default defineComponent({
+    name: "App",
+    setup () {
+      const options = reactive({ boxing: false, mma: false })
+      onMounted(() => {
+        chrome.storage.sync.get([
+        'notificationMMA', 'notificationBoxing'], (item) => {
+          if (_.isNil(item.notificationBoxing)) {
             chrome.storage.sync.set({
               notificationBoxing: false
             })
           } else {
-            this.options.boxing = items.notificationBoxing
+            options.boxing = item.notificationBoxing
           }
 
-          if (_.isNil(items.notificationMMA)) {
+          if (_.isNil(item.notificationMMA)) {
             chrome.storage.sync.set({
               notificationMMA: false
             })
           } else {
-            this.options.mma = items.notificationMMA
+            options.mma = item.notificationMMA
           }
         })
-  },
-  methods: {
-    getUrl () {
-      return chrome.extension.getURL('icons/32.png')
-    },
-    handleCheckBoxing () {
-      clearTimeout(this.time)
-      chrome.storage.sync.set({
-        notificationBoxing: this.options.boxing
       })
+      const handleCheckMMA = () => {
+        chrome.storage.sync.set({
+          notificationMMA: options.mma
+        })
+        ElNotification({
+          title: 'Success',
+          message: 'Update MMA',
+          type: 'success'
+        })
+      }
 
-      this.statusText = 'Options Boxing saved'
-      this.timer =  setTimeout(()=>{ this.statusText = '' }, 2000)
-    },
-    handleCheckMMA () {
-      clearTimeout(this.timer)
-      chrome.storage.sync.set({
-        notificationMMA: this.options.mma
-      })
-
-      this.statusText = 'Options MMA saved'
-      this.timer =  setTimeout(()=>{ this.statusText = '' }, 2000)
-    },
-    
-  }
-
-}
+      const handleCheckBoxing = () => {
+        chrome.storage.sync.set({
+          notificationBoxing: options.boxing
+        })
+        ElNotification({
+          title: 'Success',
+          message: 'Update boxing',
+          type: 'success'
+        })
+      }
+      return {
+        options,
+        handleCheckMMA,
+        handleCheckBoxing
+      }
+    }
+})
 </script>
 <style scoped lang="scss">
 html, body { height: 100%; }

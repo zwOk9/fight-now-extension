@@ -1,22 +1,7 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import store from '../store'
+import { createApp } from 'vue'
+import ElementPlus from 'element-plus';
+import 'element-plus/lib/theme-chalk/index.css';
 import App from './App.vue'
-import Element from 'element-ui'
-import '../element-variables.scss'
-import CountryFlag from 'vue-country-flag'
+import store from './store'
 
-Vue.component('country-flag', CountryFlag)
-
-
-
-Vue.use(Vuex)
-
-
-Vue.use(Element)
-
-new Vue({
-  el: '#app',
-  store,
-  render: h => h(App)
-})
+createApp(App).use(ElementPlus).use(store).mount('#app')

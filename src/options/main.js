@@ -1,14 +1,6 @@
-import Vue from 'vue'
-import store from '../store'
+import { createApp } from 'vue'
+import ElementPlus from 'element-plus';
+import 'element-plus/lib/theme-chalk/index.css';
 import App from './App.vue'
-import Element from 'element-ui'
-Vue.use(Element)
 
-
-
-
-new Vue({
-  el: '#app-options',
-  store,
-  render: h => h(App)
-})
+createApp(App).use(ElementPlus).mount('#app-options')
