@@ -1,7 +1,7 @@
 <template lang="pug">
 div
   div.fight-now-option.fight-now-option--heading
-    //- img(src="../assets/icons/32.png" height="40" alt="")
+    img(src="/icons/32.png" height="40" alt="")
     h1 {{ 'Fight now Options' }} 
   div.fight-now-option.fight-now-option--options
     div.fight-now-option--option

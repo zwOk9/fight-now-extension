@@ -3,12 +3,12 @@ module.exports = {
     "popup": {
       "template": "public/browser-extension.html",
       "entry": "./src/popup/main.js",
-      "title": "Popup"
+      "title": "Fight now"
     },
     "options" : {
       "template": "public/index.html",
       "entry": "./src/options/main.js",
-      "title": "Options"
+      "title": "Options fight now"
     } 
   },
   "pluginOptions": {

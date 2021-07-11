@@ -32,11 +32,10 @@ export default {
     const addZero = (number) => {
       return (number >= 10) ? number : `0${number}`
     }
-    // console.log((((dateSyncro - dateNow.value) / 60000) / 60) / 24))
     return {
       seconds: computed(() => addZero(Math.trunc(((dateSyncro - dateNow.value) / 1000) % 60))),
       minutes: computed(() => addZero(Math.trunc((((dateSyncro - dateNow.value) / 1000) / 60) % 60 ))),
-      heures: computed(() => addZero(Math.trunc(((((dateSyncro - dateNow.value) / 1000) / 60) / 3600) % 60 ))),
+      heures: computed(() => addZero(Math.trunc((((dateSyncro - dateNow.value) / 60000) / 60)))),
       jours: computed(() => addZero(Math.trunc((((dateSyncro - dateNow.value) / 60000) / 60) / 24)))
     }
   }

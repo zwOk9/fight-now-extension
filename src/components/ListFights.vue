@@ -38,10 +38,16 @@ export default {
       }
     },
     setup () {
-      const date = '2021-07-06T03:00:00.000+00:00'
+      const date = '2021-07-11T04:20:00.000+01:00'
       return {
         date
       }
     }
 }
 </script>
+
+<style scoped>
+.container {
+  background: black;
+}
+</style>
