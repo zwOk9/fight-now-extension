@@ -3,24 +3,34 @@ const fights =
       [
           {
             "links": ["http://crackstreams.com/boxing-streams/watch-espn-berchelt-vs-valenzuela/"],
-            "broadcaster":["DAZN", "RMC", "FOX"],
+            "broadcaster":["RMC"],
             "_id":"5f24ac10293bdf4054ac0b79",
-            "title":"Khabib Nurmagomedov vs Justin Gaethje",
-            "typeFight":"mma","dateFight":"2020-09-30T13:17:00.000Z",
+            "title":"Ufc fight night",
+            "subTitle": "Cory Sandhagen vs T.J. Dillashaw",
+            "country": "us",
+            "location": "Las Vegas",
+            "typeFight": "mma",
+            "dateFight": "2021-07-26T01:00:00.000+01:00"
         }, {
             "links":["http://crackstreams.com/boxing-streams/watch-espn-berchelt-vs-valenzuela/"],
-            "broadcaster":["DAZN"],
+            "broadcaster":["BTSPORT"],
             "_id":"5f24ac38293bdf4054ac0b7a",
-            "title":"Nonito donaire vs Naoya Inoue",
+            "title":"Heavy night",
+            "subTitle": "Joe Joyce vs Carlos Takam",
+            "country": "gb",
+            "location": "Wembley Arena, Wembley",
             "typeFight":"boxe",
-            "dateFight":"2020-10-27T03:00:00.000Z",
+            "dateFight":"2021-07-25T20:00:00.000+01:00",
         }, {
             "links":["http://crackstreams.com/boxing-streams/watch-espn-berchelt-vs-valenzuela/"],
-            "broadcaster":["DAZN"],
+            "broadcaster":["PBC"],
             "_id":"5f27305d50d94f23a8ba3256",
-            "title":"Danny Garcia vs Errol Spence",
+            "title":"The legend vs the truth",
+            "subTitle": "Errol Spence vs Manny Pacquaio",
+            "country": "us",
+            "location": "Las Vegas",
             "typeFight":"boxe",
-            "dateFight":"2020-11-21T03:00:00.000Z",
+            "dateFight":"2021-08-22T01:00:00.000+01:00",
         }
       ]
     }

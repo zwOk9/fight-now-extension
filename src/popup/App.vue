@@ -1,11 +1,13 @@
 <template lang="pug">
 div()
+  nav-bar
   list-fights(v-if="loading" :fights="fights", :limit="1")
 </template>
 
 <script lang="js">
 
 import ListFights from '@/components/ListFights.vue'
+import NavBar from '@/components/NavBar.vue'
 
 import { ref, defineComponent, onMounted, computed } from "vue";
 import  { useStore } from 'vuex';
@@ -13,7 +15,8 @@ import  { useStore } from 'vuex';
 export default defineComponent({
     name: "App",
     components: {
-      ListFights
+      ListFights,
+      NavBar
     },
     setup () {
       const store = useStore();
@@ -31,15 +34,16 @@ export default defineComponent({
 </script>
 
 <style>
-p {
-    color: red;
+
+html {
+  width: 657px;
+}
+body {
+  background-color: #161c33;
 }
 #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
 }
 </style>
