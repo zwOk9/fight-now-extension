@@ -1,6 +1,5 @@
 {
-  "extName": {
-    "message": "fight-now",
-    "description": ""
+    "description": {
+      "message": "This time, you won't miss another event."
+    }
   }
-}

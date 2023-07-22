@@ -1,95 +1,124 @@
 <template lang="pug">
-  div
-    el-row(:gutter="20" v-for="data, i in datas" :key="i")
-      el-col(:span="8").fight-now
-        div.grid-content.fight-now__icons
-          img(v-if="data.typeFight === 'boxe'" src="@/assets/boxe.png")
-          img(v-if="data.typeFight === 'mma'" src="@/assets/mma.png")
-      el-col(:span="10")
-        div.grid-content
-          p {{ data.title }}
-          div.fight-now__broadcast
-            img(v-for="broadcast in data.broadcaster" :src="getImageBroadcast(broadcast)")
-      el-col(:span="10")
-        CountDown(:date="data.dateFight")
+div
+  
+  div.container
+    el-row.container-fight(:gutter="20" )
+      el-col.container-fight--col()
+        div.container-fight-info(v-for="(fight, index) in fights" :key="index" :class="{ 'paire' : isPaire(index), 'impaire' : !isPaire(index) }")
+          div.container-fight-info--type
+            div.container-fight-info--type-img
+              img.container-fight-info--type-img-boxe(v-if="fight.typeFight === 'boxe'" src=`@/assets/boxe.png`)
+              img.container-fight-info--type-img-mma(v-else-if="fight.typeFight === 'mma'" src=`@/assets/mma.png`)
+          div.container-fight-info--title
+            h3.container-fight-info--title-principal {{ fight.title }}
+            span.container-fight-info--title--subtitle {{ fight.subTitle }}
+          div.container-fight-info--location
+            div.container-fight-info--location-text
+              span
+                  country-flag(:country='fight.country' size='small')
+              p {{  fight.location  }}
+                
+          div.container-fight-info--broadcast
+            div.container-fight-info--broadcast-icon(v-for="broadcast in fight.broadcaster")
+              img(:src="getImageBroadcast(broadcast)")
+          count-down(:date="fight.dateFight")
 </template>
 
-<script>
-import CountDown from '@/components/CountDown'
 
-  export default {
+<script lang="js">
+
+import CountDown from '@/components/CountDown.vue'
+
+import CountryFlag from 'vue-country-flag-next'
+// import { computed } from "vue";
+
+export default {
     components: {
-      CountDown
+      CountDown,
+      CountryFlag
     },
-    methods: {
-      showNotification () {
-        // chrome.browserAction.setIcon({path: {16: "./assets/icons/default1.png"}});
-        let notification = new Notification('Notification title', {
-            icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
-            body: 'Hey there! You\'ve been notified!',
-        })
-        notification.onclick = () => {
-          console.log('dd')
-          window.open('http://stackoverflow.com/a/13328397/1269037')
-        }
-        console.log(notification)
-      }, 
-      getImageBroadcast (broadcast) {
-        console.log(broadcast)
-        return require(`@/assets/broadcast/${broadcast.toLowerCase()}.png`)
+    props: {
+      fights: {
+        type: Object,
+        required: true
       }
     },
-    props: ['datas']
-  }
-  
+    setup (props) {
+      const fights = props.fights
+      const getImageBroadcast = (broadcast) =>{
+        return require(`@/assets/broadcast/${broadcast.toLowerCase()}.png`)
+      }
+      const isPaire = (index) => {
+        return index % 2 === 0
+      }
+      return {
+        fights,
+        isPaire,
+        getImageBroadcast
+      }
+    }
+}
 </script>
 
-<style lang="scss" scoped>
-  .el-row {
-    margin-bottom: 0px;
-    &:last-child {
-      margin-bottom: 0;
+<style scoped lang="scss">
+.container-fight {
+  margin: 0 !important;
+  text-align: center;
+}
+.paire {
+  border: 2px solid #c61612;
+}
+.impaire {
+  border: 2px solid #ffffff;
+}
+.container-fight-info {
+  box-shadow: inset 0 0 10px #000000;
+  display: flex;
+  margin-bottom: 11px;
+  & > div:not(:first-child) {
+    padding: 0.7rem;
+  }
+  &--title {
+    width: 28%;
+    margin-top: 5px;
+    &-principal {
+      margin: 0;
+    }
+    & h3, span {
+      color: white
     }
   }
-  .el-col {
-    border-radius: 4px;
-  }
-  .bg-purple-dark {
-    background: #99a9bf;
-  }
-  .bg-purple {
-    background: #d3dce6;
-  }
-  .bg-purple-light {
-    background: #e5e9f2;
-  }
-  .grid-content {
-    border-radius: 4px;
-    min-height: 36px;
-  }
-  .row-bg {
-    padding: 10px 0;
-    background-color: #f9fafc;
-  }
-
-  .el-header {
-    background-color: #B3C0D1;
-    color: #333;
-    line-height: 60px;
-  }
-
-  .el-aside {
-    color: #333;
-  }
-
-  .fight-now {
-    width: 12%;
-    padding-top: 3px;
-    &__icons img {
-      width: 25px;
-    }
-    &__broadcast img {
-      width: 20px;
+  &--broadcast {
+    width: 10%;
+    margin-top: 18px;
+    &-icon {
+      & img {
+        width: 2.29rem
+      }
     }
   }
+  &--location {
+    width: 28%;
+    margin-top: 5px;
+    & p {
+      color: white;
+      margin: 0;
+    }
+  }
+  &--type {
+    width: 5%;
+    &-img {
+      &-boxe {
+      width: 5rem;
+      margin-left: -10px;
+      margin-top: 7px;
+      }
+      &-mma {
+        width: 2.3rem;
+        margin-left: 10px;
+        margin-top: 14px;
+      }
+    }
+  }
+}
 </style>

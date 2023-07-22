@@ -1,32 +1,36 @@
 {
-  "manifest_version": 2,
-  "name": "__MSG_extName__",
-  "homepage_url": "http://localhost:8080/",
-  "description": "Cette fois, tu ne manqueras pas un autre évènement.",
+  "name": "Fight now",
+  "version": "1.0",
+  "manifest_version": 3,
   "default_locale": "en",
+  "description": "__MSG_description__",
   "permissions": [
-    "<all_urls>",
-    "*://*/*",
-    "storage", 
-    "notifications"
+    "storage",
+    "notifications",
+    "alarms"
   ],
+  "action": {
+      "default_icon": {
+          "16": "/icons/16.png",
+          "24": "/icons/24.png",
+          "32": "/icons/32.png",
+          "48": "/icons/48.png",
+          "64": "/icons/64.png",
+          "128": "/icons/128.png"
+      },
+      "default_popup": "popup.html",
+      "default_title": "Fight now"
+  },
   "icons": {
-    "16": "icons/16.png",
-    "48": "icons/48.png",
-    "128": "icons/128.png"
+    "16": "/icons/16.png",
+    "24": "/icons/24.png",
+    "32": "/icons/32.png",
+    "48": "/icons/48.png",
+    "64": "/icons/64.png",
+    "128": "/icons/128.png"
   },
-  "background": {
-    "scripts": [
-      "js/background.js"
-    ],
-    "persistent": false
-  },
-  "browser_action": {
-    "default_popup": "popup.html",
-    "default_title": "__MSG_extName__",
-    "default_icon": {
-      "16": "icons/16.png",
-      "32": "icons/32.png"
-    }
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
   }
 }
